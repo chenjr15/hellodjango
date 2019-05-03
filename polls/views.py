@@ -27,6 +27,11 @@ class DetailView(generic.DetailView):
     model = Question
     # 指定模板名字, 默认名字是<app name>/<model name>_<class name>.html
     template_name = 'polls/detail.html'
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):
